@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pauseable Video</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden; /* To prevent scrolling */
+        }
+
+        #video {
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Disable mouse events on the video element */
+        }
+    </style>
+</head>
+<body>
+    <video id="video" src="papai.mp4" alt="papai video" muted loop></video>
+    
+    <script>
+        var video = document.getElementById('video');
+        var isPointerPressed = false;
+
+        // Pause the video initially
+        video.pause();
+
+        document.addEventListener('keydown', handleKeyPress);
+        document.addEventListener('keyup', handleKeyRelease);
+        document.addEventListener('mousedown', handlePointerDown);
+        document.addEventListener('mouseup', handlePointerUp);
+
+        // For mobile devices
+        document.addEventListener('touchstart', handlePointerDown);
+        document.addEventListener('touchend', handlePointerUp);
+
+        function handleKeyPress() {
+            if (!isPointerPressed) {
+                video.play();
+                isPointerPressed = true;
+            }
+        }
+
+        function handleKeyRelease() {
+            video.pause();
+            isPointerPressed = false;
+        }
+
+        function handlePointerDown(event) {
+            // Exclude right mouse button (button code 2)
+            if (event.button !== 2) {
+                video.play();
+                isPointerPressed = true;
+            }
+        }
+
+        function handlePointerUp(event) {
+            // Exclude right mouse button (button code 2)
+            if (event.button !== 2) {
+                video.pause();
+                isPointerPressed = false;
+            }
+        }
+    </script>
+</body>
+</html>
